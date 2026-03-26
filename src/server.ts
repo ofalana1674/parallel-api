@@ -12,8 +12,9 @@ import { registerChatHandlers } from './handlers/chatHandler.js';
 import './workers/expiryWorker.js';
 
 const app = Fastify({ logger: true });
+const PORT = parseInt(process.env.PORT || '3001', 10);
 
-await app.register(cors, { origin: process.env.ALLOWED_ORIGINS?.split(',') || '*' });
+await app.register(cors, { origin: '*' });
 await app.register(sessionRoutes);
 await app.register(tagRoutes);
 await app.register(healthRoutes);
@@ -34,6 +35,6 @@ io.on('connection', (socket) => {
   registerChatHandlers(io, socket);
 });
 
-httpServer.listen(3001, '0.0.0.0', () => {
-  app.log.info('Parallel API + Socket.io running on :3001');
+httpServer.listen(PORT, '0.0.0.0', () => {
+  app.log.info(`Parallel API + Socket.io running on :${PORT}`);
 });
