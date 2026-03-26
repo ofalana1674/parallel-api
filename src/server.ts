@@ -5,6 +5,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { sessionRoutes } from './routes/session.js';
 import { tagRoutes } from './routes/tags.js';
+import { healthRoutes } from './routes/health.js';
 import { redis } from './lib/redis.js';
 import { setIO } from './lib/socket.js';
 import { registerChatHandlers } from './handlers/chatHandler.js';
@@ -15,6 +16,7 @@ const app = Fastify({ logger: true });
 await app.register(cors, { origin: process.env.ALLOWED_ORIGINS?.split(',') || '*' });
 await app.register(sessionRoutes);
 await app.register(tagRoutes);
+await app.register(healthRoutes);
 
 await redis.connect();
 await app.ready();
