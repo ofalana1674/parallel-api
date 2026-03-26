@@ -64,3 +64,9 @@ async function createMatch(sessionA: string, sessionB: string, sharedTags: strin
 async function hasSeen(sessionA: string, sessionB: string): Promise<boolean> {
   return (await redis.sismember(Keys.seenBloom(sessionA), sessionB)) === 1;
 }
+
+import { scheduleMatchExpiry } from '../workers/expiryWorker.js';
+
+export async function scheduleExpiry(matchId: string, expiresAt: string): Promise<void> {
+  await scheduleMatchExpiry(matchId, expiresAt);
+}

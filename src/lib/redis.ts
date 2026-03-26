@@ -5,6 +5,12 @@ export const redis = new Redis(process.env.REDIS_URL!, {
   lazyConnect: true,
 });
 
+// Separate connection for BullMQ (requires maxRetriesPerRequest: null)
+export const bullRedis = new Redis(process.env.REDIS_URL!, {
+  maxRetriesPerRequest: null,
+  lazyConnect: false,
+});
+
 export const Keys = {
   session:     (id: string)        => `session:${id}`,
   poolTag:     (tagId: string)     => `pool:tag:${tagId}`,
